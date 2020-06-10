@@ -3,7 +3,8 @@
   <ul>
     <%= for article <- @latest_articles do %>
       <li>
-        <%= article.title %> - <%= article.source %>
+        <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
+         - <%= article.source %>
       </li>
     <% end %>
   </ul>

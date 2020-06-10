@@ -1,0 +1,10 @@
+<article class="column">
+  <h2>Articles!</h2>
+  <ul>
+    <%= for article <- @latest_articles do %>
+      <li>
+        <%= article.title %> - <%= article.source %>
+      </li>
+    <% end %>
+  </ul>
+</article>
