@@ -4,20 +4,20 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= assigns[:page_title] || "Kudzu · Phoenix Framework" %></title>
+    <title><%= assigns[:page_title] || "Kudzu" %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <%= csrf_meta_tag() %>
   </head>
   <body>
     <header>
       <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
+        <%# <nav role="navigation"> %>
+        <%#   <ul> %>
+        <%#     <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li> %>
+        <%#   </ul> %>
+        <%# </nav> %>
+        <a href="/" class="phx-logo">
+          <h1>Kudzu</h1>
         </a>
       </section>
     </header>

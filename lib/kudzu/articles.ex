@@ -9,6 +9,13 @@ defmodule Kudzu.Articles do
   alias Kudzu.Articles.Article
 
   @doc """
+  Returns the 25 latest articles
+  """
+  def list_latest_articles do
+    Article |> order_by([:published_date, :updated_at]) |> limit(25) |> Repo.all
+  end
+
+  @doc """
   Returns the list of articles.
 
   ## Examples
