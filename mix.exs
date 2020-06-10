@@ -44,7 +44,8 @@ defmodule Kudzu.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:elixir_feed_parser, "~> 0.0.1"},
-      {:httpoison, "~> 1.6"}
+      {:httpoison, "~> 1.6"},
+      {:timex, "~> 3.5"}
     ]
   end
 
