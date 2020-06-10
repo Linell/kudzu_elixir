@@ -1,5 +1,5 @@
 <article class="column">
   <h2><%= @article.title %></h2>
   <p>Sourced from <%= @article.source %></p>
-  <p><%= @article.description %></p>
+  <p><%= raw(@article.description) %></p>
 </article>
