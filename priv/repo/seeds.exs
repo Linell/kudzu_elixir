@@ -17,3 +17,11 @@ Kudzu.Feeds.create_feed(%{
   slug: "cnn",
   logo_url: "https://upload.wikimedia.org/wikipedia/commons/b/b1/CNN.svg"
 })
+
+Kudzu.Feeds.create_feed(%{
+  title: "Fox News",
+  description: "Fox News is an American conservative cable television news channel. It is owned by FOX News Media, which itself is owned by the Fox Corporation.",
+  url: "http://feeds.foxnews.com/foxnews/latest",
+  slug: "fox",
+  logo_url: "https://upload.wikimedia.org/wikipedia/commons/6/67/Fox_News_Channel_logo.svg"
+})

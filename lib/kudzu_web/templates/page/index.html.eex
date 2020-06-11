@@ -4,7 +4,7 @@
     <%= for article <- @latest_articles do %>
       <li>
         <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
-         - <%= article.source %>
+        - <%= article.source %> @ <%= Timex.format!(article.published_date, "{M}/{D} - {h12}:{0m}{am}") %>
       </li>
     <% end %>
   </ul>

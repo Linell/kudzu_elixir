@@ -1,5 +1,5 @@
 defmodule Kudzu.RSSScraper do
-  def fetch_feed(url) do
+  def fetch_feed(url, source) do
     { :ok, %HTTPoison.Response{body: body} } = HTTPoison.get(url)
     feed = ElixirFeedParser.parse(body)
 
@@ -12,7 +12,7 @@ defmodule Kudzu.RSSScraper do
             description:    entry.description,
             url:            entry.url,
             published_date: published_date,
-            source:         "cnn"
+            source:         source
           })
         { :error, err } -> IO.puts("#{err} - #{entry."rss2:pubDate"}")
       end
