@@ -1,6 +1,5 @@
 defmodule Kudzu.RSSScraper do
-  def fetch_feed do
-    url  = cnn_url
+  def fetch_feed(url) do
     { :ok, %HTTPoison.Response{body: body} } = HTTPoison.get(url)
     feed = ElixirFeedParser.parse(body)
 
@@ -19,14 +18,10 @@ defmodule Kudzu.RSSScraper do
       end
     end
 
-    { :ok, feed }
+    { :ok, Enum.count(feed.entries) }
   end
 
   def insert_article(article) do
     { :ok, article } = Kudzu.Articles.create_or_update_article(article)
-  end
-
-  def cnn_url do
-    "http://rss.cnn.com/rss/cnn_topstories.rss"
   end
 end
