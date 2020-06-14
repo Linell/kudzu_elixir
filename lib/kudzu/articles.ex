@@ -12,7 +12,7 @@ defmodule Kudzu.Articles do
   Returns the 25 latest articles
   """
   def list_latest_articles do
-    Article |> order_by([:published_date, :updated_at]) |> limit(25) |> Repo.all
+    Article |> order_by([desc: :published_date, desc: :updated_at]) |> limit(25) |> Repo.all
   end
 
   @doc """
