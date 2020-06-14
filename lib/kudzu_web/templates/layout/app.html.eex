@@ -27,5 +27,7 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <%# <script src="https://kit.fontawesome.com/4527f8207b.js" crossorigin="anonymous"></script> %>
   </body>
 </html>
