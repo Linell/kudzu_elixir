@@ -1,5 +1,9 @@
 <article class="column">
   <h2><%= @article.title %></h2>
-  <p>Sourced from <%= @article.source %></p>
   <p><%= raw(@article.description) %></p>
+  <hr/>
+  <p>
+    Sourced from <%= @article.source %>. View the original story
+    <%= link("here", to: @article.url, target: :_blank) %>.
+  </p>
 </article>
