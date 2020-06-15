@@ -5,7 +5,7 @@
       <li>
         <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
         - <%= link(article.source, to: article.url, target: :_blank) %>
-        @ <%= Timex.format!(article.published_date, "{M}/{D} - {h12}:{0m}{am}") %>
+        @ <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
       </li>
     <% end %>
   </ul>
