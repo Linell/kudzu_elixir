@@ -11,9 +11,10 @@ defmodule Kudzu.Application do
       # Start the Ecto repository
       Kudzu.Repo,
       # Start the endpoint when the application starts
-      KudzuWeb.Endpoint
+      KudzuWeb.Endpoint,
       # Starts a worker by calling: Kudzu.Worker.start_link(arg)
       # {Kudzu.Worker, arg},
+      Kudzu.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
