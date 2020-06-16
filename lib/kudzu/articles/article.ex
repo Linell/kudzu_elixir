@@ -7,7 +7,6 @@ defmodule Kudzu.Articles.Article do
     field :description,    :string
     field :url,            :string
     field :published_date, :naive_datetime
-    field :source,         :string
 
     belongs_to :feed, Kudzu.Feeds.Feed
 
@@ -17,7 +16,7 @@ defmodule Kudzu.Articles.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:url, :title, :description, :published_date, :source, :feed_id])
+    |> cast(attrs, [:url, :title, :description, :published_date, :feed_id])
     |> validate_required([:url, :title, :published_date])
   end
 end
