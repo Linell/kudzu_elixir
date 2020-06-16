@@ -9,6 +9,8 @@ defmodule Kudzu.Feeds.Feed do
     field :title, :string
     field :url, :string
 
+    has_many :articles, Kudzu.Articles.Article
+
     timestamps()
   end
 

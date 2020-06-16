@@ -12,7 +12,11 @@ defmodule Kudzu.Articles do
   Returns the 25 latest articles
   """
   def list_latest_articles do
-    Article |> order_by([desc: :published_date, desc: :updated_at]) |> limit(25) |> Repo.all
+    Article
+    |> preload(:feed)
+    |> order_by([desc: :published_date, desc: :updated_at])
+    |> limit(25)
+    |> Repo.all
   end
 
   @doc """
@@ -42,7 +46,7 @@ defmodule Kudzu.Articles do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article!(id), do: Repo.get!(Article, id)
+  def get_article!(id), do: Repo.get!(Article, id) |> Repo.preload(:feed)
 
   @doc """
   Creates a article.
@@ -66,7 +70,7 @@ defmodule Kudzu.Articles do
   Creates or updates an article
   """
   def create_or_update_article(attrs \\ %{}) do
-    query   = from a in Article, where: a.url == ^attrs.url
+    query   = from a in Article, where: (a.url == ^attrs.url) or (a.title == ^attrs.title and a.feed_id == ^attrs.feed_id)
     article = Repo.all(query) |> List.first
 
     if is_nil(article) do

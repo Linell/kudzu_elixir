@@ -1,9 +1,11 @@
 <article class="column">
-  <h2>Articles!</h2>
+  <h2>Articles</h2>
   <ul>
     <%= for article <- @latest_articles do %>
       <li>
-        <%= article.title %> - <%= article.source %>
+        <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
+        - via <%= link(article.feed.title, to: article.url, target: :_blank) %>
+        @ <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
       </li>
     <% end %>
   </ul>

@@ -106,7 +106,7 @@ defmodule Kudzu.Feeds do
   Scrape the latest articles from the provided feed.
   """
   def scrape_feed(%Feed{} = feed) do
-    { :ok, count } = Kudzu.RSSScraper.fetch_feed(feed.url, feed.slug)
+    { :ok, count } = Kudzu.RSSScraper.fetch_feed(feed.url, feed.id)
   end
 
   @doc """

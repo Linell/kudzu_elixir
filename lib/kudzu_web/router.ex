@@ -16,7 +16,7 @@ defmodule KudzuWeb.Router do
   scope "/", KudzuWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", ArticleController, :index
 
     resources "/articles", ArticleController, only: [:index, :show]
   end
