@@ -1,12 +1,18 @@
-<article class="column">
-  <h2>Articles</h2>
-  <ul>
+<div class='container'>
+  <h2 class='text-center'>Latest Articles</h2>
+  <ul class='list-group'>
     <%= for article <- @latest_articles do %>
-      <li>
-        <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
-        - via <%= link(article.feed.title, to: article.url, target: :_blank) %>
-        @ <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
+      <li class='list-group-item list-group-item-action flex-column align-items-start'>
+        <%= link to: Routes.article_path(@conn, :show, article) do %>
+          <div class='d-flex w-100 justify-content-between'>
+            <h5 class='md-'><%= article.title %></h5>
+          </div>
+        <% end %>
+        <small>
+          View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
+          <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
+        </small>
       </li>
     <% end %>
   </ul>
-</article>
+</div>

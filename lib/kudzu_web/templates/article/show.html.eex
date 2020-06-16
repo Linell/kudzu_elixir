@@ -1,9 +1,11 @@
-<article class="column">
-  <h2><%= @article.title %></h2>
-  <p><%= raw(@article.description) %></p>
-  <hr/>
-  <p>
-    Sourced from <%= @article.feed.title %>. View the original story
-    <%= link("here", to: @article.url, target: :_blank) %>.
-  </p>
-</article>
+<div class='jumbotron jumbotron-fluid'>
+  <div class='container-fluid'>
+    <h2 class='display-4'><%= @article.title %></h2>
+    <p class='lead'><%= raw(@article.description) %></p>
+    <hr class='my-4'>
+    <p>
+      Sourced from <%= @article.feed.title %>. View the original story
+      <%= link("here", to: @article.url, target: :_blank) %>.
+    </p>
+  </div>
+</div>
