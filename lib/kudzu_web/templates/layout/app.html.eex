@@ -17,7 +17,19 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav ml-auto">
+            <%= if Pow.Plug.current_user(@conn) do %>
+              <li class="nav-item">
+                <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class='nav-item'>
+                <%= link "Register", to: Routes.pow_registration_path(@conn, :new), class: "nav-link" %>
+              </li>
+              <li class='nav-item'>
+                <%= link "Sign in", to: Routes.pow_session_path(@conn, :new), class: "nav-link" %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </nav>

@@ -46,7 +46,8 @@ defmodule Kudzu.MixProject do
       {:elixir_feed_parser, "~> 0.0.1"},
       {:httpoison, "~> 1.6"},
       {:timex, "~> 3.5"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:pow, "~> 1.0.20"}
     ]
   end
 

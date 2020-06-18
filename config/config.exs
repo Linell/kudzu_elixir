@@ -28,6 +28,11 @@ config :kudzu, Kudzu.Scheduler,
     { "*/15 * * * *", { Kudzu.Feeds, :scrape_all_feeds, [] }}
   ]
 
+config :kudzu, :pow,
+  user: Kudzu.Users.User,
+  repo: Kudzu.Repo,
+  web_module: KudzuWeb
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
