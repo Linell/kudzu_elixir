@@ -18,6 +18,12 @@ defmodule KudzuWeb.Router do
     plug Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
+  scope "/admin", KudzuWeb.Admin, as: :admin do
+    pipe_through [:browser, :protected]
+
+    resources "/feeds", FeedController
+  end
+
   scope "/" do
     pipe_through :browser
 

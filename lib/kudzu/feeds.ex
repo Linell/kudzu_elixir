@@ -6,6 +6,12 @@ defmodule Kudzu.Feeds do
   import Ecto.Query, warn: false
   alias Kudzu.Repo
 
+  import Torch.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
   alias Kudzu.Feeds.Feed
 
   @doc """
@@ -118,5 +124,61 @@ defmodule Kudzu.Feeds do
     end
 
     { :ok, "success" }
+  end
+
+  @doc """
+  Paginate the list of feeds using filtrex
+  filters.
+
+## Examples
+
+      iex> list_feeds(%{})
+      %{feeds: [%Feed{}], ...}
+  """
+  @spec paginate_feeds(map) :: {:ok, map} | {:error, any}
+  def paginate_feeds(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:feeds), params["feed"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_feeds(filter, params) do
+      {:ok,
+        %{
+          feeds: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_feeds(filter, params) do
+    Feed
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  defp filter_config(:feeds) do
+    defconfig do
+      text :title
+      text :description
+      text :logo_url
+      text :slug
+      text :url
+    end
   end
 end
