@@ -33,6 +33,10 @@ config :kudzu, :pow,
   repo: Kudzu.Repo,
   web_module: KudzuWeb
 
+config :torch,
+  otp_app: :kudzu,
+  template_format: "eex" || "slime"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

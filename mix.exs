@@ -47,7 +47,8 @@ defmodule Kudzu.MixProject do
       {:httpoison, "~> 1.6"},
       {:timex, "~> 3.5"},
       {:quantum, "~> 3.0"},
-      {:pow, "~> 1.0.20"}
+      {:pow, "~> 1.0.20"},
+      {:torch, "~> 3.4" }
     ]
   end
 
