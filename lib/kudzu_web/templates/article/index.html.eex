@@ -7,6 +7,12 @@
           <div class='d-flex w-100 justify-content-between'>
             <h5 class='md-'><%= article.title %></h5>
           </div>
+          <%= for tag <- article.tags do %>
+            <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
+          <% end%>
+          <%= unless Enum.empty?(article.tags) do %>
+            <br>
+          <% end %>
         <% end %>
         <small>
           View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
