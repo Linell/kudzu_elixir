@@ -7,5 +7,14 @@
       Sourced from <%= @article.feed.title %>. View the original story
       <%= link("here", to: @article.url, target: :_blank) %>.
     </p>
+    <p>
+      Kudzu users have associated this article with the following topics:
+    </p>
+    <%= for tag <- @article.tags do %>
+      <span class='badge badge-pill badge-primary'>
+        <%= tag.tag %>
+        (<%= Kudzu.UserArticleTags.get_article_tag_count(tag.id, @article.id) %>)
+      </span>
+    <% end %>
   </div>
 </div>
