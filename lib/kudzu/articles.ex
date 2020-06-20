@@ -13,7 +13,7 @@ defmodule Kudzu.Articles do
   """
   def list_latest_articles do
     Article
-    |> preload(:feed)
+    |> preload([:feed, :tags])
     |> order_by([desc: :published_date, desc: :updated_at])
     |> limit(25)
     |> Repo.all
@@ -46,7 +46,7 @@ defmodule Kudzu.Articles do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article!(id), do: Repo.get!(Article, id) |> Repo.preload(:feed)
+  def get_article!(id), do: Repo.get!(Article, id) |> Repo.preload([:feed, :tags])
 
   @doc """
   Creates a article.

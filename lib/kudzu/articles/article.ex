@@ -10,6 +10,9 @@ defmodule Kudzu.Articles.Article do
 
     belongs_to :feed, Kudzu.Feeds.Feed
 
+    has_many :user_article_tags, Kudzu.UserArticleTags.UserArticleTag
+    has_many :tags, through: [:user_article_tags, :tag]
+
     timestamps()
   end
 
