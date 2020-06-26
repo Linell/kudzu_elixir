@@ -15,6 +15,7 @@ defmodule Kudzu.UserArticleTags.UserArticleTag do
     user_article_tag
     |> cast(attrs, [])
     |> validate_required([])
+    |> unique_constraint(:tag_id, name: :index_unique_user_article_tag_combo)
     |> put_assoc(:user,    attrs.user    || user_article_tag.user)
     |> put_assoc(:article, attrs.article || user_article_tag.article)
     |> put_assoc(:tag,     attrs.tag     || user_article_tag.tag)

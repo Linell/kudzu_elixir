@@ -39,7 +39,9 @@ defmodule KudzuWeb.Router do
 
     get "/", ArticleController, :index
 
-    resources "/articles", ArticleController, only: [:index, :show]
+    resources "/articles", ArticleController, only: [:index, :show] do
+      post("/tag", ArticleController, :tag, as: :tag)
+    end
   end
 
   # Other scopes may use custom stacks.
