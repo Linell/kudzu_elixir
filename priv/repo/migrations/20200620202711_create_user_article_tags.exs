@@ -13,5 +13,6 @@ defmodule Kudzu.Repo.Migrations.CreateUserArticleTags do
     create index(:user_article_tags, [:user_id])
     create index(:user_article_tags, [:article_id])
     create index(:user_article_tags, [:tag_id])
+    create unique_index(:user_article_tags, [:user_id, :article_id, :tag_id], name: :index_unique_user_article_tag_combo)
   end
 end

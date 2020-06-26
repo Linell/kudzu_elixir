@@ -56,6 +56,25 @@ defmodule Kudzu.Tags do
   end
 
   @doc """
+  Finds or creates a tag.
+
+  This can definitely cause a race condition that won't matter until there are more users
+  but 100% needs revisiting.
+  """
+  def find_or_create_tag(tag_text) do
+    processed_text = tag_text |> Tag.tag_from_string
+
+    query = from t in Tag,
+            where: t.tag == ^tag_text
+
+    if !Repo.one(query) do
+      create_tag(%{tag: tag_text})
+    end
+
+    Repo.one(query)
+  end
+
+  @doc """
   Updates a tag.
 
   ## Examples
