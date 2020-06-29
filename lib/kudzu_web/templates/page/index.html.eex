@@ -1,12 +1,41 @@
-<article class="column">
-  <h2>Latest Articles</h2>
-  <ul>
-    <%= for article <- @latest_articles do %>
-      <li>
-        <%= link(article.title, to: Routes.article_path(@conn, :show, article)) %>
-        - <%= link(article.source, to: article.url, target: :_blank) %>
-        @ <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
-      </li>
-    <% end %>
-  </ul>
-</article>
+<div class='container'>
+  <div class='row text-center'>
+    <div class='col-md-12'>
+      <h2>Kudzu</h2>
+      <p class='lead'>All of your headlines in once place.</p>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-9'>
+      <p>
+        Kudzu is, at the core, an RSS feed aggregator that helps you stay informed without accidentally ending up in an 
+        <a href="https://en.wikipedia.org/wiki/Echo_chamber_(media)" target="_blank">echo chamber.</a> It accomplishes
+        that by exposing you to news sources that you may not usually visit. For example, if you typically spend all day
+        on Reddit's <a href="https://reddit.com/r/politics" target="_blank">/r/politics</a> then you probably don't see
+        many articles from Fox News. Conversly, if you typically only listen to Rush Limbaugh there's a solid chance
+        that a headline from Mother Jones isn't going to cross your path very often. What if none of the headlines you see
+        include a piece of information that changes your opinion?
+      </p>
+      <p>
+        Right now Kudzu is under active development and is only pulling from CNN and Fox News for the headlines displayed.
+        The plan is to drastically increase the number of sources in the future, though, and use the concepts of tags to help
+        filter back down to the topics that you as a user actually care about. After signing up for an account, any user can
+        tag an article with a given topic so that other users are able to find that information. As part of the ongoing development,
+        this process will improve, become more refined, and become a useful way to consume your news and stay informed.
+      </p>
+      <p>
+        Finally, Kudzu is fully open source. You can view 100% of the code powering everything you see here by visiting the
+        <a href="https://github.com/Linell/kudzu" target="_blank">Github repository</a>. This helps you be sure that what
+        you're seeing isn't constricted by an algorithm trying to maximize your clicks.
+      </p>
+    </div>
+
+    <div class='col-md-3'>
+      <p>Resources:</p>
+      <ul>
+        <li><a href="https://github.com/Linell/kudzu" target="_blank"><i class='fab fa-github'></i> Github</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class='navbar-nav'>
+            <li class='nav-item'>
+              <a href="/about" class='nav-link'>About</a>
+            </li>
+          </ul>
           <ul class="navbar-nav ml-auto">
             <%= if Pow.Plug.current_user(@conn) do %>
               <li class="nav-item">
@@ -51,6 +56,6 @@
 
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
 
-    <%# <script src="https://kit.fontawesome.com/4527f8207b.js" crossorigin="anonymous"></script> %>
+    <script src="https://kit.fontawesome.com/4527f8207b.js" crossorigin="anonymous"></script>
   </body>
 </html>

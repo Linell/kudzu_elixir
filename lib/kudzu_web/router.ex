@@ -37,7 +37,8 @@ defmodule KudzuWeb.Router do
   scope "/", KudzuWeb do
     pipe_through :browser
 
-    get "/", ArticleController, :index
+    get "/",      ArticleController, :index
+    get "/about", PageController,    :index
 
     resources "/articles", ArticleController, only: [:index, :show] do
       post("/tag", ArticleController, :tag, as: :tag)
