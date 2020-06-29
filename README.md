@@ -4,7 +4,7 @@ Kudzu is designed to allow you to view headlines from a variety of sources in on
 
 By tagging articles with the topics present, users should be able to see what different sources are saying about any hot topic.
 
-!(preview)[https://imgur.com/a/3uqBp0m.png]
+![Usage Preview](https://imgur.com/a/3uqBp0m.png)
 
 ## Usage
 
