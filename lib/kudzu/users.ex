@@ -1,7 +1,21 @@
 defmodule Kudzu.Users do
+  import Ecto.Query, warn: false
   alias Kudzu.{Repo, Users.User}
 
   @type t :: %User{}
+
+  @doc """
+  Returns the list of users.
+
+  ## Examples
+
+      iex> list_users()
+      [%user{}, ...]
+
+  """
+  def list_users do
+    Repo.all(User)
+  end
 
   @spec create_admin(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
   def create_admin(params) do
