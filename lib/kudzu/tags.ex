@@ -65,10 +65,10 @@ defmodule Kudzu.Tags do
     processed_text = tag_text |> Tag.tag_from_string
 
     query = from t in Tag,
-            where: t.tag == ^tag_text
+            where: t.tag == ^processed_text
 
     if !Repo.one(query) do
-      create_tag(%{tag: tag_text})
+      create_tag(%{tag: processed_text})
     end
 
     Repo.one(query)
