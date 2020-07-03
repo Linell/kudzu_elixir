@@ -7,7 +7,7 @@
       Sourced from <%= @article.feed.title %>. View the original story
       <%= link("here", to: @article.url, target: :_blank) %>.
     </p>
-    <p>
+    <p class='small'>
       Kudzu users have associated this article with the following topics:
     </p>
     <div class='tagContainer'>
@@ -24,12 +24,26 @@
     </div>
     <%= unless is_nil(@current_user) do %>
       <hr class='my-4'>
-      <form>
-        <div class='form-group'>
-          <input type='text' class='form-control' id='tagSubmissionForm' placeholder='Want to add a tag to this article?'>
+      <div class='row'>
+        <div class='col-md-4'>
+          <p>
+            By tagging this article with a topic, you help make it easier for other users to find the
+            headlines for which they're searching.
+          </p>
         </div>
-        <button class='btn btn-primary' id='tagSubmitButton' data-article-id='<%= @article.id %>'>Add Tag</button>
-      </form>
+        <div class='col-md-8'>
+          <form>
+            <div class='form-group'>
+              <div class='input-group'>
+                <input type='text' class='form-control' id='tagSubmissionForm' placeholder='Tag this article with a topic?'>
+                <div class='input-group-append'>
+                  <button class='btn btn-outline-primary' id='tagSubmitButton' data-article-id='<%= @article.id %>'>Add Tag</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
