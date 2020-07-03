@@ -10,7 +10,7 @@
     <header>
       <section id="torch-account-info">
         <div class="torch-container">
-          <a href="/"><%= @current_user.email %>
+          <%= @current_user.email %>
           <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "nav-link" %>
         </div>
       </section>
@@ -18,8 +18,8 @@
       <section id="torch-nav">
         <div class="torch-container">
           <div class="torch-logo">
-            <a href="/">
-              <h3>Torch</h3>
+            <a href="/admin/feeds">
+              <h3>Kudzu Admin</h3>
             </a>
           </div>
           <nav class="torch-nav">
