@@ -41,26 +41,15 @@ function addTagToArticle(articleId, tagText, successCallback) {
 }
 
 function updateTagCount(data) {
-  // this whole feature is the worst code I've written in years. I love it.
-  var existingTag = $(".tagContainer span[data-article-tag='" + data.tag_tag + "']")
-
-  if (existingTag.length > 0) {
-    var existingCount = existingTag.find('.tagCount').html()
-    var newCount = parseInt(existingCount.match(/\((\d+)\)/)[1]) + 1
-
-    existingTag.find('.tagCount').html("(" + newCount + ")")
-  } else {
-    var newHTML = "<span class='badge badge-pill badge-primary addTagToArticle' data-article-tag='" + data.tag_tag + "' data-article-id='" + data.tag_id + "'>" 
-    newHTML = newHTML + data.tag_tag
-    newHTML = newHTML + "<span class='tagCount'>(1)</span>"
-    newHTML = newHTML + "</span>"
-
-    $('.tagContainer').append(newHTML)
-  }
+  window.location.reload(true);
 }
 
 $(".addTagToArticle").click(function(e) {
-  const thing     = $(e.target)
+  let thing = $(e.target)
+  if ($(e.target).hasClass('fas')) {
+    thing = $(e.target).parent()
+  }
+
   const tagText   = thing.attr('data-article-tag')
   const articleId = thing.attr('data-article-id')
 

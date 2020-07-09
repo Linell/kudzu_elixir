@@ -1,9 +1,9 @@
 defmodule KudzuWeb.ArticleController do
   use KudzuWeb, :controller
 
-  def index(conn, _params) do
+  def index(conn, params) do
     conn
-    |> Plug.Conn.assign(:latest_articles, Kudzu.Articles.list_latest_articles())
+    |> Plug.Conn.assign(:latest_articles, Kudzu.Articles.list_latest_articles(params))
     |> render("index.html")
   end
 

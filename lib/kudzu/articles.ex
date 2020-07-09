@@ -7,11 +7,29 @@ defmodule Kudzu.Articles do
   alias Kudzu.Repo
 
   alias Kudzu.Articles.Article
+  alias Kudzu.Tags.Tag
+  alias Kudzu.UserArticleTags.UserArticleTag
+  alias Kudzu.Feeds.Feed
 
   @doc """
   Returns the 25 latest articles
   """
-  def list_latest_articles do
+  def list_latest_articles(%{"tags" => tags}) do
+    processed_tags = Enum.map(tags, fn(t) -> Tag.tag_from_string(t) end)
+
+    query = from a in Article,
+            join: uat in UserArticleTag, on: uat.article_id == a.id,
+            join: t   in Tag,            on: t.id == uat.tag_id,
+            join: f   in Feed,           on: f.id == a.feed_id,
+            where: (t.tag in ^processed_tags),
+            limit: 100,
+            order_by: [desc: :published_date, desc: :updated_at],
+            preload: [feed: f, tags: t]
+
+    Repo.all(query)
+  end
+
+  def list_latest_articles(_params) do
     Article
     |> preload([:feed, :tags])
     |> order_by([desc: :published_date, desc: :updated_at])

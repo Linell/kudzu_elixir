@@ -10,16 +10,35 @@
     <p class='small'>
       Kudzu users have associated this article with the following topics:
     </p>
-    <div class='tagContainer'>
     <%= for tag <- @article.tags do %>
-        <%= if is_nil(@current_user) do %>
-          <span class='badge badge-pill badge-primary' data-article-tag='<%= tag.tag %>' data-article-id='<%= @article.id %>' >
-        <% else %>
-          <span class='cursorPointer badge badge-pill badge-primary addTagToArticle' data-article-tag='<%= tag.tag %>' data-article-id='<%= @article.id %>' >
-        <% end %>
-        <%= tag.tag %>
-        <span class='tagCount'>(<%= Kudzu.UserArticleTags.get_article_tag_count(tag.id, @article.id) %>)</span>
-      </span>
+      <div class='btn-group btn-group-sm' role='group'>
+        <button type='button' class='btn btn-primary'disabled='true'>
+          <%= tag.tag %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-primary'
+          disabled='true'
+          title='The number of users that have tagged this article with the topic'>
+            <%= Kudzu.UserArticleTags.get_article_tag_count(tag.id, @article.id) %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-secondary'
+          title='Show other articles tagged with this topic'>
+          <%= link to: Routes.article_path(@conn, :index, tags: [tag.tag]) do %>
+            <i style='color:white;' class='fas fa-search'></i>
+          <% end %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-secondary addTagToArticle'
+          title='Tag the article with this topic. More tags help ensure accurancy.'
+          data-article-tag='<%= tag.tag %>'
+          data-article-id='<%= @article.id %>'>
+          <i class='fas fa-tags'></i>
+        </button>
+      </div>
     <% end %>
     </div>
     <%= unless is_nil(@current_user) do %>
