@@ -43,7 +43,7 @@
     </div>
     <%= unless is_nil(@current_user) do %>
       <hr class='my-4'>
-      <div class='row'>
+      <div class='row mx-4'>
         <div class='col-md-4'>
           <p>
             By tagging this article with a topic, you help make it easier for other users to find the
