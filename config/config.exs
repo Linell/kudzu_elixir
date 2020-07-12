@@ -15,18 +15,18 @@ config :kudzu, KudzuWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "PwMOTQkeI4lIc6B+U/5Z8RLkA03k7dfsnQCMWRKtJoLkshGlp1lOb6BFk+s1asx2",
   render_errors: [view: KudzuWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Kudzu.PubSub, adapter: Phoenix.PubSub.PG2],
-  live_view: [signing_salt: "ZdfC2kt8"]
+  pubsub_server: Kudzu.PubSub,
+  live_view: [signing_salt: "k7SIqKHJLdPRqR49aiMCBJ87JLQ8Q+Zt"]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :kudzu, Kudzu.Scheduler,
-  jobs: [
-    { "*/15 * * * *", { Kudzu.Feeds, :scrape_all_feeds, [] }}
-  ]
+# config :kudzu, Kudzu.Scheduler,
+#   jobs: [
+#     { "*/15 * * * *", { Kudzu.Feeds, :scrape_all_feeds, [] }}
+#   ]
 
 config :kudzu, :pow,
   user: Kudzu.Users.User,

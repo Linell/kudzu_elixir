@@ -1,0 +1,69 @@
+<div class='jumbotron jumbotron-fluid'>
+  <div class='container-fluid'>
+    <h2 class='display-4'><%= @article.title %></h2>
+    <p class='lead'><%= raw(@article.description) %></p>
+    <hr class='my-4'>
+    <p>
+      Sourced from <%= @article.feed.title %>. View the original story
+      <%= link("here", to: @article.url, target: :_blank) %>.
+    </p>
+    <p class='small'>
+      Kudzu users have associated this article with the following topics:
+    </p>
+    <%= for tag <- @article.tags do %>
+      <div class='btn-group btn-group-sm' role='group'>
+        <button type='button' class='btn btn-primary'disabled='true'>
+          <%= tag.tag %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-primary'
+          disabled='true'
+          title='The number of users that have tagged this article with the topic'>
+          <%= @article.user_article_tags |> Enum.filter(fn e -> e.tag_id == tag.id end) |> Enum.count %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-secondary'
+          title='Show other articles tagged with this topic'>
+          <%= link to: Routes.article_path(@socket, :index, tags: [tag.tag]) do %>
+            <i style='color:white;' class='fas fa-search'></i>
+          <% end %>
+        </button>
+        <button
+          type='button'
+          class='btn btn-secondary addTagToArticle'
+          title='Tag the article with this topic. More tags help ensure accurancy.'
+          data-article-tag='<%= tag.tag %>'
+          data-article-id='<%= @article.id %>'>
+          <i class='fas fa-tags'></i>
+        </button>
+      </div>
+    <% end %>
+    </div>
+    <%= unless is_nil(@current_user) do %>
+      <hr class='my-4'>
+      <div class='row mx-4'>
+        <div class='col-md-4'>
+          <p>
+            By tagging this article with a topic, you help make it easier for other users to find the
+            headlines for which they're searching.
+          </p>
+        </div>
+        <div class='col-md-8'>
+          <%= form_for :new_article_tag, "#", [phx_change: :validate, phx_submit: :add_tag], fn f -> %>
+            <div class='form-group'>
+              <div class='input-group'>
+                <%= text_input f, :tag_text, value: @new_tag_text, class: "form-control" %>
+                <%= hidden_input f, :article_id, value: @article.id %>
+                <div class='input-group-append'>
+                  <%= submit "Add Tag", phx_disable_with: "Saving...", class: "btn btn-outline-primary" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

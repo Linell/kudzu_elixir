@@ -9,6 +9,8 @@ import css from "../css/app.css"
 //
 // Import dependencies
 //
+import { Socket } from "phoenix"
+import LiveSocket from "phoenix_live_view"
 import "phoenix_html"
 
 // Import local files
@@ -16,53 +18,16 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-function addTagToArticle(articleId, tagText, successCallback) {
-  console.log('articleId: ', articleId)
-  console.log('tagText: ', tagText)
-  const csrfToken = $('meta[name=csrf-token]').attr("content")
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
 
-  $.ajax({
-    url: "/articles/" + articleId + "/tag",
-    type: "post",
-    data: { tag: tagText },
-    headers: {
-      'X-CSRF-TOKEN': csrfToken
-    },
-    success: function(data) {
-      console.log("SUCCESS: ", data)
-      successCallback(data)
-    },
-    error: function(data) {
-      console.log("ERROR: ", data)
+// Connect if there are any LiveViews on the page
+liveSocket.connect()
 
-      return(false);
-    }
-  });
-}
-
-function updateTagCount(data) {
-  window.location.reload(true);
-}
-
-$(".addTagToArticle").click(function(e) {
-  let thing = $(e.target)
-  if ($(e.target).hasClass('fas')) {
-    thing = $(e.target).parent()
-  }
-
-  const tagText   = thing.attr('data-article-tag')
-  const articleId = thing.attr('data-article-id')
-
-  addTagToArticle(articleId, tagText, updateTagCount);
-});
-
-$("#tagSubmitButton").click(function(e) {
-  e.preventDefault();
-  
-  const articleId = $(e.target).attr('data-article-id')
-  const tagText   = $("#tagSubmissionForm").val()
-
-  addTagToArticle(articleId, tagText, updateTagCount);
-  
-  $("#tagSubmissionForm").val('')
-});
+// Expose liveSocket on window for web console debug logs and latency simulation:
+// >> liveSocket.enableDebug()
+// >> liveSocket.enableLatencySim(1000)
+// The latency simulator is enabled for the duration of the browser session.
+// Call disableLatencySim() to disable:
+// >> liveSocket.disableLatencySim()
+window.liveSocket = liveSocket

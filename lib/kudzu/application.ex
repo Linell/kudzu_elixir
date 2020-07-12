@@ -14,7 +14,8 @@ defmodule Kudzu.Application do
       KudzuWeb.Endpoint,
       # Starts a worker by calling: Kudzu.Worker.start_link(arg)
       # {Kudzu.Worker, arg},
-      Kudzu.Scheduler
+      Kudzu.Scheduler,
+      { Phoenix.PubSub, [name: Kudzu.PubSub, adapter: Phoenix.PubSub.PG2] }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
