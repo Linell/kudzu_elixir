@@ -67,6 +67,12 @@ defmodule Kudzu.UserArticleTags do
     %UserArticleTag{}
     |> UserArticleTag.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      { :ok, uat } ->
+        KudzuWeb.Endpoint.broadcast_from!(self(), "article-#{uat.article_id}", "tag", %{status: "removed"})
+        { :ok, uat }
+      { status, message } -> { status, message }
+    end
   end
 
   @doc """
@@ -101,6 +107,12 @@ defmodule Kudzu.UserArticleTags do
   """
   def delete_user_article_tag(%UserArticleTag{} = user_article_tag) do
     Repo.delete(user_article_tag)
+    |> case do
+      { :ok, uat } ->
+        KudzuWeb.Endpoint.broadcast_from!(self(), "article-#{user_article_tag.article_id}", "tag", %{status: "removed"})
+        { :ok, uat }
+      { status, message } -> { status, message }
+    end
   end
 
   @doc """
@@ -128,6 +140,7 @@ defmodule Kudzu.UserArticleTags do
 
     if is_nil(foo) do
       { :ok, _ } = create_user_article_tag(%{article: article, tag: tag, user: user})
+      KudzuWeb.Endpoint.broadcast_from!(self(), "article-#{article.id}", "tag", %{status: "added"})
       { :ok, "added" }
     else
       { :ok, _ } = delete_user_article_tag(foo)

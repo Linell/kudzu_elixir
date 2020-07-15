@@ -7,7 +7,9 @@ defmodule KudzuWeb.ArticleLive do
   end
 
   def mount(%{"article_id" => article_id}, session, socket) do
-    if connected?(socket), do: Process.send_after(self(), :update, 30000)
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(Kudzu.PubSub, "article-#{article_id}")
+    end
 
     article      = Kudzu.Articles.get_article!(article_id)
     current_user = Credentials.get_user(socket, session)
@@ -18,11 +20,6 @@ defmodule KudzuWeb.ArticleLive do
 
   def mount(_params, _session, socket) do
     { :ok, socket }
-  end
-
-  def handle_info(:update, socket)  do
-    IO.puts "Remember to remove me! I'm from the connected? call above!"
-    { :noreply, socket }
   end
 
   def handle_event("toggle_article_tag", %{"id" => article_id, "tag" => tag_text} = session, socket) do
@@ -89,6 +86,12 @@ defmodule KudzuWeb.ArticleLive do
           { :noreply, socket }
       end
     end
+  end
+
+  def handle_info(%Phoenix.Socket.Broadcast{event: event, topic: topic, payload: payload}, socket) do
+    article = socket.assigns.article
+
+    { :noreply, assign(socket, article: Kudzu.Articles.get_article!(article.id)) }
   end
 
   def handle_event(action, key, socket) do
