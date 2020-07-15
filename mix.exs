@@ -50,7 +50,8 @@ defmodule Kudzu.MixProject do
       {:pow, "~> 1.0.20"},
       {:torch, "~> 3.4" },
       {:phoenix_live_view, "~> 0.14.0"},
-      {:floki, ">= 0.0.0", only: :test}
+      {:floki, ">= 0.0.0", only: :test},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false }
     ]
   end
 
