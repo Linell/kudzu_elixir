@@ -23,10 +23,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# config :kudzu, Kudzu.Scheduler,
-#   jobs: [
-#     { "*/15 * * * *", { Kudzu.Feeds, :scrape_all_feeds, [] }}
-#   ]
+config :kudzu, Kudzu.Scheduler,
+  jobs: [
+    { "*/15 * * * *", { Kudzu.Feeds, :scrape_all_feeds, [] }}
+  ]
 
 config :kudzu, :pow,
   user: Kudzu.Users.User,
