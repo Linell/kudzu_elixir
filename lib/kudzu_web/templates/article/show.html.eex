@@ -6,6 +6,7 @@
     <p>
       Sourced from <%= @article.feed.title %>. View the original story
       <%= link("here", to: @article.url, target: :_blank) %>.
+      Originally published <span class='utc_to_local'><%= @article.published_date %></span>.
     </p>
     <p class='small'>
       Kudzu users have associated this article with the following topics:

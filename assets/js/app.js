@@ -31,3 +31,16 @@ liveSocket.connect()
 // Call disableLatencySim() to disable:
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
+// Deal with dates on the client side, based on tomekowal's code here:
+// https://elixirforum.com/t/displaying-utc-datetime-in-users-browser-timezone/28361/4
+let convert_dates = function() {
+  $(".utc_to_local").text(function(index, utc_date) {
+    return moment.utc(utc_date).local().format('LLLL');
+  });
+};
+
+// for live views
+$(document).on("phx:update", convert_dates);
+// for regular views
+$(document).ready(convert_dates);

@@ -16,7 +16,7 @@
         <% end %>
         <small>
           View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
-          <%= Timex.format!(Timex.local(article.published_date), "{M}/{D} - {h12}:{0m}{am}") %>
+          <span class='utc_to_local'><%= article.published_date %></span>
         </small>
       </li>
     <% end %>
