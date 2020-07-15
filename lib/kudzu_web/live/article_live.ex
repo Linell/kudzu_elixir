@@ -2,8 +2,6 @@ defmodule KudzuWeb.ArticleLive do
   use Phoenix.LiveView
   alias KudzuWeb.Credentials
 
-  require IEx
-
   def render(assigns) do
     KudzuWeb.ArticleView.render("live.html", assigns)
   end
@@ -19,8 +17,6 @@ defmodule KudzuWeb.ArticleLive do
   end
 
   def mount(params, session, socket) do
-    IEx.pry
-
     { :ok, socket }
   end
 
