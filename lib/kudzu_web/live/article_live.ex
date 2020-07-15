@@ -16,7 +16,7 @@ defmodule KudzuWeb.ArticleLive do
     { :ok, socket }
   end
 
-  def mount(params, session, socket) do
+  def mount(_params, _session, socket) do
     { :ok, socket }
   end
 
@@ -25,14 +25,29 @@ defmodule KudzuWeb.ArticleLive do
     { :noreply, socket }
   end
 
+  def handle_event("toggle_article_tag", %{"id" => article_id, "tag" => tag_text} = session, socket) do
+    try do
+      current_user    = socket.assigns.current_user
+      tag             = Kudzu.Tags.find_or_create_tag(tag_text)
+      article         = socket.assigns.article || Kudzu.Articles.get_article!(article_id)
+      { :ok, action } = Kudzu.UserArticleTags.toggle_user_article_tag(current_user, article, tag)
+
+      new_socket = socket
+                   |> put_flash(:success, "The tag has been #{action}!")
+                   |> assign(article: Kudzu.Articles.get_article!(article_id))
+
+      { :noreply, new_socket }
+    rescue
+      e in KeyError -> { :noreply, socket }
+    end
+  end
+
   def handle_event("add_tag", session, socket) do
     tag_text     = session["new_article_tag"]["tag_text"]
     article_id   = session["new_article_tag"]["article_id"]
     current_user = socket.assigns.current_user
 
     if is_nil(tag_text) || is_nil(article_id) || is_nil(current_user) do
-      IEx.pry
-
       { :noreply, socket }
     else
       tag     = Kudzu.Tags.find_or_create_tag(tag_text)
@@ -71,8 +86,6 @@ defmodule KudzuWeb.ArticleLive do
           end
 
         { _, _ } ->
-          IEx.pry
-
           { :noreply, socket }
       end
     end

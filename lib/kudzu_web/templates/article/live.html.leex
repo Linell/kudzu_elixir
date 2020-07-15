@@ -34,8 +34,9 @@
           type='button'
           class='btn btn-secondary addTagToArticle'
           title='Tag the article with this topic. More tags help ensure accurancy.'
-          data-article-tag='<%= tag.tag %>'
-          data-article-id='<%= @article.id %>'>
+          phx-value-tag='<%= tag.tag %>'
+          phx-value-id='<%= @article.id %>'
+          phx-click="toggle_article_tag">
           <i class='fas fa-tags'></i>
         </button>
       </div>

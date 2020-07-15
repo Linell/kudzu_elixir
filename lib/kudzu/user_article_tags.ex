@@ -7,6 +7,9 @@ defmodule Kudzu.UserArticleTags do
   alias Kudzu.Repo
 
   alias Kudzu.UserArticleTags.UserArticleTag
+  alias Kudzu.Users.User
+  alias Kudzu.Articles.Article
+  alias Kudzu.Tags.Tag
 
   @doc """
   Returns the list of user_article_tags.
@@ -111,5 +114,24 @@ defmodule Kudzu.UserArticleTags do
   """
   def change_user_article_tag(%UserArticleTag{} = user_article_tag) do
     UserArticleTag.changeset(user_article_tag, %{})
+  end
+
+  @doc """
+  If the specified user has already tagged an article with the given text,
+  then we untag the article. If they haven't, then we tag it.
+  """
+  def toggle_user_article_tag(%User{} = user, %Article{} = article, %Tag{} = tag) do
+    query = from uat in UserArticleTag,
+      where: uat.article_id == ^article.id and uat.tag_id == ^tag.id and uat.user_id == ^user.id
+
+    foo = Repo.one(query)
+
+    if is_nil(foo) do
+      { :ok, _ } = create_user_article_tag(%{article: article, tag: tag, user: user})
+      { :ok, "added" }
+    else
+      { :ok, _ } = delete_user_article_tag(foo)
+      { :ok, "removed" }
+    end
   end
 end
