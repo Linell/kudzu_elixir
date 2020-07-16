@@ -25,6 +25,9 @@
           <ul class="navbar-nav ml-auto">
             <%= if Pow.Plug.current_user(@conn) do %>
               <li class="nav-item">
+                <%= link @current_user.email, to: Routes.pow_registration_path(@conn, :edit), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
                 <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "nav-link" %>
               </li>
             <% else %>
