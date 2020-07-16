@@ -7,43 +7,53 @@
       Sourced from <%= @article.feed.title %>. View the original story
       <%= link("here", to: @article.url, target: :_blank) %>.
     </p>
-    <p class='small'>
-      Kudzu users have associated this article with the following topics:
-    </p>
-    <%= for tag <- @article.tags do %>
-      <div class='btn-group btn-group-sm' role='group'>
-        <button type='button' class='btn btn-primary'disabled='true'>
-          <%= tag.tag %>
-        </button>
-        <button
-          type='button'
-          class='btn btn-primary'
-          disabled='true'
-          title='The number of users that have tagged this article with the topic'>
-          <%= @article.user_article_tags |> Enum.filter(fn e -> e.tag_id == tag.id end) |> Enum.count %>
-        </button>
-        <button
-          type='button'
-          class='btn btn-secondary'
-          title='Show other articles tagged with this topic'>
-          <%= link to: Routes.article_path(@socket, :index, tags: [tag.tag]) do %>
-            <i style='color:white;' class='fas fa-search'></i>
-          <% end %>
-        </button>
-        <button
-          type='button'
-          class='btn btn-secondary addTagToArticle'
-          title='Tag the article with this topic. More tags help ensure accurancy.'
-          phx-value-tag='<%= tag.tag %>'
-          phx-value-id='<%= @article.id %>'
-          phx-click="toggle_article_tag">
-          <i class='fas fa-tags'></i>
-        </button>
-      </div>
+    <%= unless @article.tags == [] do %>
+      <p class='small'>
+        Kudzu users have associated this article with the following topics:
+      </p>
+      <%= for tag <- @article.tags do %>
+        <div class='btn-group btn-group-sm' role='group'>
+          <button type='button' class='btn btn-primary'disabled='true'>
+            <%= tag.tag %>
+          </button>
+          <button
+            type='button'
+            class='btn btn-primary'
+            disabled='true'
+            title='The number of users that have tagged this article with the topic'>
+            <%= @article.user_article_tags |> Enum.filter(fn e -> e.tag_id == tag.id end) |> Enum.count %>
+          </button>
+          <button
+            type='button'
+            class='btn btn-secondary'
+            title='Show other articles tagged with this topic'>
+            <%= link to: Routes.article_path(@socket, :index, tags: [tag.tag]) do %>
+              <i style='color:white;' class='fas fa-search'></i>
+            <% end %>
+          </button>
+          <button
+            type='button'
+            class='btn btn-secondary addTagToArticle'
+            title='Tag the article with this topic. More tags help ensure accurancy.'
+            phx-value-tag='<%= tag.tag %>'
+            phx-value-id='<%= @article.id %>'
+            phx-click="toggle_article_tag">
+            <i class='fas fa-tags'></i>
+          </button>
+        </div>
+      <% end %>
     <% end %>
     </div>
-    <%= unless is_nil(@current_user) do %>
-      <hr class='my-4'>
+    <hr class='my-4'>
+    <%= if is_nil(@current_user) do %>
+      <div class='col-md-12'>
+        <p>
+          By 
+          <%= link "signing up", to: Routes.pow_registration_path(@socket, :new) %>
+          as a user, you will be able to help tag articles with topics!
+        </p>
+      </div>
+    <% else %>
       <div class='row mx-4'>
         <div class='col-md-4'>
           <p>
