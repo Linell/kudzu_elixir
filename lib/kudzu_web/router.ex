@@ -44,7 +44,6 @@ defmodule KudzuWeb.Router do
 
     resources "/articles", ArticleController, only: [:index, :show] do
       post("/tag", ArticleController, :tag, as: :tag)
-      live "/live", ArticleLive, :show, as: :live, layout: { KudzuWeb.LayoutView, :root }
     end
   end
 

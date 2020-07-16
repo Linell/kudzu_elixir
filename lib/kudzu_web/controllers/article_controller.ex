@@ -9,13 +9,11 @@ defmodule KudzuWeb.ArticleController do
 
   def show(conn, %{"id" => id}) do
     article = Kudzu.Articles.get_article!(id)
-    user    = Pow.Plug.current_user(conn)
 
-    if is_nil(user) do
-      render(conn, "show.html", article: article)
-    else
-      redirect(conn, to: "/articles/#{article.id}/live")
-    end
+    live_render(conn, KudzuWeb.ArticleLive, session: %{
+      "article_id"   => article.id,
+      "current_user" => Pow.Plug.current_user(conn)
+    })
   end
 
   def tag(conn, params) do

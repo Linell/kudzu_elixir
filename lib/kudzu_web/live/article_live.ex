@@ -18,7 +18,15 @@ defmodule KudzuWeb.ArticleLive do
     { :ok, socket }
   end
 
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"article_id" => article_id, "current_user" => user} = session, socket) do
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(Kudzu.PubSub, "article-#{article_id}")
+    end
+
+    article      = Kudzu.Articles.get_article!(article_id)
+    current_user = Credentials.get_user(socket, session)
+    socket       = assign(socket, article: article, current_user: current_user, new_tag_text: nil)
+
     { :ok, socket }
   end
 
