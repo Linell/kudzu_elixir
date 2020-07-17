@@ -1,0 +1,87 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Tag", to: Routes.admin_tag_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Tags</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Tag</label>
+            <%= filter_select(:tag, :tag, @conn.params) %>
+            <%= filter_string_input(:tag, :tag, @conn.params) %>
+          </div>
+        
+        
+        
+          <div class="field">
+            <label>Inserted at</label>
+            <%= filter_date_input(:tag, :inserted_at, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Updated at</label>
+            <%= filter_date_input(:tag, :updated_at, @conn.params) %>
+          </div>
+        
+        
+          <div class="field">
+            <label>Id</label>
+            <%= number_filter_select(:tag, :id, @conn.params) %>
+            <%= filter_number_input(:tag, :id, @conn.params) %>
+          </div>
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.admin_tag_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@tags) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Id", :id) %></th>
+            
+              <th><%= table_link(@conn, "Tag", :tag) %></th>
+            
+              <th><%= table_link(@conn, "Inserted at", :inserted_at) %></th>
+            
+              <th><%= table_link(@conn, "Updated at", :updated_at) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for tag <- @tags do %>
+            <tr>
+              
+                <td><%= tag.id %></td>
+              
+                <td><%= tag.tag %></td>
+              
+                <td><%= tag.inserted_at %></td>
+              
+                <td><%= tag.updated_at %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.admin_tag_path(@conn, :show, tag) %></span>
+                <span><%= link "Edit", to: Routes.admin_tag_path(@conn, :edit, tag) %></span>
+                <span><%= link "Delete", to: Routes.admin_tag_path(@conn, :delete, tag), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Tags match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

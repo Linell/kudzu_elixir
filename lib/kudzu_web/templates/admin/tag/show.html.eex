@@ -1,0 +1,37 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_tag_path(@conn, :edit, @tag), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_tag_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <div class="header">
+      <h3>Tag Details</h3>
+    </div>
+    <ul>
+      
+        <li>
+          <div class="torch-show-label">Id:</div>
+          <div class="torch-show-data"><%= @tag.id %></div>
+        </li>
+      
+        <li>
+          <div class="torch-show-label">Tag:</div>
+          <div class="torch-show-data"><%= @tag.tag %></div>
+        </li>
+      
+        <li>
+          <div class="torch-show-label">Inserted at:</div>
+          <div class="torch-show-data"><%= @tag.inserted_at %></div>
+        </li>
+      
+        <li>
+          <div class="torch-show-label">Updated at:</div>
+          <div class="torch-show-data"><%= @tag.updated_at %></div>
+        </li>
+      
+    </ul>
+  </div>
+</section>

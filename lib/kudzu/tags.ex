@@ -3,10 +3,61 @@ defmodule Kudzu.Tags do
   The Tags context.
   """
 
+  import Torch.Helpers, only: [sort: 1, paginate: 4]
+  import Filtrex.Type.Config
   import Ecto.Query, warn: false
   alias Kudzu.Repo
 
   alias Kudzu.Tags.Tag
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of tags using filtrex
+  filters.
+
+  ## Examples
+
+      iex> list_tags(%{})
+      %{tags: [%Tag{}], ...}
+  """
+  @spec paginate_tags(map) :: {:ok, map} | {:error, any}
+  def paginate_tags(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:tags), params["tag"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_tags(filter, params) do
+      {:ok,
+        %{
+          tags: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_tags(filter, params) do
+    Tag
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
 
   @doc """
   Returns the list of tags.
@@ -56,25 +107,6 @@ defmodule Kudzu.Tags do
   end
 
   @doc """
-  Finds or creates a tag.
-
-  This can definitely cause a race condition that won't matter until there are more users
-  but 100% needs revisiting.
-  """
-  def find_or_create_tag(tag_text) do
-    processed_text = tag_text |> Tag.tag_from_string
-
-    query = from t in Tag,
-            where: t.tag == ^processed_text
-
-    if !Repo.one(query) do
-      create_tag(%{tag: processed_text})
-    end
-
-    Repo.one(query)
-  end
-
-  @doc """
   Updates a tag.
 
   ## Examples
@@ -93,7 +125,7 @@ defmodule Kudzu.Tags do
   end
 
   @doc """
-  Deletes a tag.
+  Deletes a Tag.
 
   ## Examples
 
@@ -117,7 +149,36 @@ defmodule Kudzu.Tags do
       %Ecto.Changeset{source: %Tag{}}
 
   """
-  def change_tag(%Tag{} = tag) do
-    Tag.changeset(tag, %{})
+  def change_tag(%Tag{} = tag, attrs \\ %{}) do
+    Tag.changeset(tag, attrs)
+  end
+
+  @doc """
+  Finds or creates a tag.
+
+  This can definitely cause a race condition that won't matter until there are more users
+  but 100% needs revisiting.
+  """
+  def find_or_create_tag(tag_text) do
+    processed_text = tag_text |> Tag.tag_from_string
+
+    query = from t in Tag,
+            where: t.tag == ^processed_text
+
+    if !Repo.one(query) do
+      create_tag(%{tag: processed_text})
+    end
+
+    Repo.one(query)
+  end
+
+  defp filter_config(:tags) do
+    defconfig do
+      number :id
+        text :tag
+        date :inserted_at
+        date :updated_at
+        
+    end
   end
 end

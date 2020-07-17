@@ -29,6 +29,7 @@ defmodule KudzuWeb.Router do
 
     resources "/users", UserController
     resources "/feeds", FeedController
+    resources "/tags",  TagController
   end
 
   scope "/" do
