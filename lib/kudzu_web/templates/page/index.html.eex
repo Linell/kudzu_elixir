@@ -7,7 +7,7 @@
   </div>
 
   <div class='row'>
-    <div class='col-md-9'>
+    <div class='col-md-12'>
       <p>
         Kudzu is, at the core, an RSS feed aggregator that helps you stay informed without accidentally ending up in an 
         <a href="https://en.wikipedia.org/wiki/Echo_chamber_(media)" target="_blank">echo chamber.</a> It accomplishes
@@ -24,18 +24,6 @@
         tag an article with a given topic so that other users are able to find that information. As part of the ongoing development,
         this process will improve, become more refined, and become a useful way to consume your news and stay informed.
       </p>
-      <p>
-        Finally, Kudzu is fully open source. You can view 100% of the code powering everything you see here by visiting the
-        <a href="https://github.com/Linell/kudzu" target="_blank">Github repository</a>. This helps you be sure that what
-        you're seeing isn't constricted by an algorithm trying to maximize your clicks.
-      </p>
-    </div>
-
-    <div class='col-md-3'>
-      <p>Resources:</p>
-      <ul>
-        <li><a href="https://github.com/Linell/kudzu" target="_blank"><i class='fab fa-github'></i> Github</a></li>
-      </ul>
     </div>
   </div>
 </div>
