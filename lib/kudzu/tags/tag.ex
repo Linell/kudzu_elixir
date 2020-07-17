@@ -5,6 +5,10 @@ defmodule Kudzu.Tags.Tag do
   schema "tags" do
     field :tag, :string
 
+    has_many :user_article_tags, Kudzu.UserArticleTags.UserArticleTag
+    has_many :articles, through: [:user_article_tags, :article]
+    has_many :users,    through: [:user_article_tags, :user]
+
     timestamps()
   end
 
