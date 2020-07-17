@@ -25,6 +25,7 @@
           <nav class="torch-nav">
             <a href="/admin/users">Users</a>
             <a href="/admin/feeds">Feeds</a>
+            <a href="/admin/tags">Tags</a>
           </nav>
         </div>
       </section>
