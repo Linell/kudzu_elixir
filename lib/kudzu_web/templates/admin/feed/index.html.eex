@@ -55,14 +55,7 @@
           <tr>
             
               <th><%= table_link(@conn, "Title", :title) %></th>
-            
-              <th><%= table_link(@conn, "Description", :description) %></th>
-            
-              <th><%= table_link(@conn, "Logo url", :logo_url) %></th>
-            
-              <th><%= table_link(@conn, "Slug", :slug) %></th>
-            
-              <th><%= table_link(@conn, "Url", :url) %></th>
+              <th><%= table_link(@conn, "URL", :url) %></th>
             
             <th><span>Actions</span></th>
           </tr>
@@ -72,12 +65,6 @@
             <tr>
               
                 <td><%= feed.title %></td>
-              
-                <td><%= feed.description %></td>
-              
-                <td><%= feed.logo_url %></td>
-              
-                <td><%= feed.slug %></td>
               
                 <td><%= feed.url %></td>
               
