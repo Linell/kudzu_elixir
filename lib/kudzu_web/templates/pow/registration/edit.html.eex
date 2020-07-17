@@ -34,15 +34,16 @@
   <div class='col-md-12'>
     <hr/>
     <p>
-      Looking to delete your account? I'm sad to see you go, but I'm happy to help!
-      To delete your account, please contact me at
+      Looking for support? I'm happy to help! Email me at
       <a href="mailto:tlbonnette@gmail.com" target="_blank">tlbonnette@gmail.com</a> and I
-      will let you know when your account has been deleted.
+      will get back to you as soon as I can!
     </p>
+    <hr/>
     <p>
-      I hate when websites make me email them for a deletion too. I promise this isn't some lame
-      attempt to convince you to stay - I just haven't implemented the functionality for 
-      users to delete themselves yet. Thanks for being an early adopter 😅
+      The button below will delete your account and, to the best of my efforts, all of your
+      data (such as your tags on articles). This action can't be undone, so proceed with
+      caution.
     </p>
+    <%= button("Delete Account", to: Routes.pow_registration_path(@conn, :delete), method: :delete, class: "btn btn-danger btn-lg btn-block") %>
   </div>
 </div>
