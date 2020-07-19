@@ -5,3 +5,12 @@
 .cursorPointer {
   cursor: pointer;
 }
+
+.brandBackgroundColor {
+  background-color: #374d3d !important;
+  color: white !important;
+}
+
+.brandTextColor {
+  color: #374d3d !important;
+}
