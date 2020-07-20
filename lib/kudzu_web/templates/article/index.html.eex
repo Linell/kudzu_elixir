@@ -1,24 +1,48 @@
 <div class='container'>
-  <h2 class='text-center brandTextColor'>Latest Articles</h2>
-  <ul class='list-group'>
-    <%= for article <- @latest_articles do %>
-      <li class='list-group-item list-group-item-action flex-column align-items-start'>
-        <%= link to: Routes.article_path(@conn, :show, article) do %>
-          <div class='d-flex w-100 justify-content-between'>
-            <h5 class='brandTextColor md-'><%= article.title %></h5>
+  <div class="row">
+    <%= if length(@tags) > 0 do %>
+      <div class="col-2">
+        <div class="card">
+          <div class="card-header">Topic Filters</div>
+          <div class="card-body">
+            <ul>
+            <%= for tag <- @tags do %>
+              <li>
+                <%= link to: Routes.article_path(@conn, :index, %{"tags" => @tags -- [tag]}) do %>
+                  <span class="badge badge-primary badge-pill"><%= tag %></span>
+                <% end %>
+              </li>
+            <% end %>
+            </ul>
           </div>
-          <%= for tag <- article.tags do %>
-            <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
-          <% end%>
-          <%= unless Enum.empty?(article.tags) do %>
-            <br>
-          <% end %>
-        <% end %>
-        <small>
-          View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
-          <span class='utc_to_local'><%= article.published_date %></span>
-        </small>
-      </li>
+        </div>
+      </div>
     <% end %>
-  </ul>
+
+    <div class="col">
+      <ul class='list-group'>
+        <%= for article <- @latest_articles do %>
+          <li class='list-group-item list-group-item-action flex-column align-items-start'>
+            <div class='d-flex w-100 justify-content-between'>
+              <%= link to: Routes.article_path(@conn, :show, article) do %>
+                <h5 class='brandTextColor md-'><%= article.title %></h5>
+              <% end %>
+            </div>
+            <%= for tag <- article.tags do %>
+              <%= link to: Routes.article_path(@conn, :index, %{"tags" => Enum.uniq(@tags ++ [tag.tag])}) do %>
+                <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
+              <% end %>
+            <% end%>
+            <%= unless Enum.empty?(article.tags) do %>
+              <br>
+            <% end %>
+            <small>
+              View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
+              <span class='utc_to_local'><%= article.published_date %></span>
+            </small>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
