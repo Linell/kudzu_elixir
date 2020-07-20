@@ -14,7 +14,7 @@ defmodule Kudzu.Tags.Tag do
 
   def tag_from_string(string) do
     string
-    |> String.downcase
+    |> String.replace(~r/\s+/, "")
     |> maybe_hashtagize
   end
 
