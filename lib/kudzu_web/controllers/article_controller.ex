@@ -1,9 +1,12 @@
 defmodule KudzuWeb.ArticleController do
   use KudzuWeb, :controller
 
+  require IEx
+
   def index(conn, params) do
     conn
     |> Plug.Conn.assign(:latest_articles, Kudzu.Articles.list_latest_articles(params))
+    |> Plug.Conn.assign(:tags, (params["tags"] || []))
     |> render("index.html")
   end
 

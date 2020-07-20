@@ -6,6 +6,8 @@ defmodule Kudzu.Articles do
   import Ecto.Query, warn: false
   alias Kudzu.Repo
 
+  require IEx
+
   alias Kudzu.Articles.Article
   alias Kudzu.Tags.Tag
   alias Kudzu.UserArticleTags.UserArticleTag
@@ -15,18 +17,26 @@ defmodule Kudzu.Articles do
   Returns the 25 latest articles
   """
   def list_latest_articles(%{"tags" => tags}) do
-    processed_tags = Enum.map(tags, fn(t) -> Tag.tag_from_string(t) end)
+    processed_tag_ids = Enum.map(tags, fn(t) ->
+      tag_from_string = Tag.tag_from_string(t)
 
-    query = from a in Article,
-            join: uat in UserArticleTag, on: uat.article_id == a.id,
-            join: t   in Tag,            on: t.id == uat.tag_id,
-            join: f   in Feed,           on: f.id == a.feed_id,
-            where: (t.tag in ^processed_tags),
-            limit: 100,
-            order_by: [desc: :published_date, desc: :updated_at],
-            preload: [feed: f, tags: t]
+      query = from a in Article,
+              select: a.id,
+              join: uat in UserArticleTag, on: uat.article_id == a.id,
+              join: t   in Tag,            on: t.id == uat.tag_id,
+              where: t.tag == ^tag_from_string
 
-    Repo.all(query)
+      Repo.all(query)
+    end) |> Enum.reduce(fn tl, acc -> 
+      MapSet.intersection(MapSet.new(acc), MapSet.new(tl)) |> MapSet.to_list
+    end)
+
+    Article
+    |> where([a], a.id in ^processed_tag_ids)
+    |> limit(100)
+    |> order_by([desc: :published_date, desc: :updated_at])
+    |> preload([:feed, :tags])
+    |> Repo.all
   end
 
   def list_latest_articles(_params) do

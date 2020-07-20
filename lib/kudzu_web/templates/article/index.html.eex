@@ -3,16 +3,18 @@
   <ul class='list-group'>
     <%= for article <- @latest_articles do %>
       <li class='list-group-item list-group-item-action flex-column align-items-start'>
-        <%= link to: Routes.article_path(@conn, :show, article) do %>
-          <div class='d-flex w-100 justify-content-between'>
+        <div class='d-flex w-100 justify-content-between'>
+          <%= link to: Routes.article_path(@conn, :show, article) do %>
             <h5 class='brandTextColor md-'><%= article.title %></h5>
-          </div>
-          <%= for tag <- article.tags do %>
-            <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
-          <% end%>
-          <%= unless Enum.empty?(article.tags) do %>
-            <br>
           <% end %>
+        </div>
+        <%= for tag <- article.tags do %>
+          <%= link to: Routes.article_path(@conn, :index, %{"tags" => @tags ++ [tag.tag]}) do %>
+            <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
+          <% end %>
+        <% end%>
+        <%= unless Enum.empty?(article.tags) do %>
+          <br>
         <% end %>
         <small>
           View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
