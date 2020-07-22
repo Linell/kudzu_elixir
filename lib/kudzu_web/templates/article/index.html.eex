@@ -9,7 +9,7 @@
             <%= for tag <- @tags do %>
               <li>
                 <%= link to: Routes.article_path(@conn, :index, %{"tags" => @tags -- [tag]}) do %>
-                  <span class="badge badge-primary badge-pill"><%= tag %></span>
+                  <span class="badge badge-success badge-pill"><%= tag %></span>
                 <% end %>
               </li>
             <% end %>
@@ -30,7 +30,7 @@
             </div>
             <%= for tag <- article.tags do %>
               <%= link to: Routes.article_path(@conn, :index, %{"tags" => Enum.uniq(@tags ++ [tag.tag])}) do %>
-                <span class="badge badge-primary badge-pill"><%= tag.tag %></span>
+                <span class="badge badge-success badge-pill"><%= tag.tag %></span>
               <% end %>
             <% end%>
             <%= unless Enum.empty?(article.tags) do %>
