@@ -41,7 +41,7 @@ defmodule Kudzu.Articles do
     Article
     |> preload([:feed, :tags])
     |> order_by([desc: :published_date, desc: :updated_at])
-    |> limit(25)
+    |> limit(100)
     |> Repo.all
   end
 

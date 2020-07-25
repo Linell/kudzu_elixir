@@ -130,7 +130,7 @@ defmodule Kudzu.Feeds do
   Paginate the list of feeds using filtrex
   filters.
 
-## Examples
+  ## Examples
 
       iex> list_feeds(%{})
       %{feeds: [%Feed{}], ...}
