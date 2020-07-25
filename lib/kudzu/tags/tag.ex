@@ -1,6 +1,7 @@
 defmodule Kudzu.Tags.Tag do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   schema "tags" do
     field :tag, :string
@@ -10,6 +11,12 @@ defmodule Kudzu.Tags.Tag do
     has_many :users,    through: [:user_article_tags, :user]
 
     timestamps()
+  end
+
+  def search(query, search_term) do
+    from(t in query,
+      where: fragment("? % ?", t.tag, ^search_term),
+      order_by: fragment("similarity(?, ?) DESC", t.tag, ^search_term))
   end
 
   def tag_from_string(string) do

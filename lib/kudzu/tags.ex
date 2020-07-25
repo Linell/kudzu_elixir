@@ -172,6 +172,15 @@ defmodule Kudzu.Tags do
     Repo.one(query)
   end
 
+  def search_tags(search_term) do
+    processed_text = search_term |> Tag.tag_from_string
+
+    Tag
+    |> Tag.search(processed_text)
+    |> limit(15)
+    |> Repo.all
+  end
+
   defp filter_config(:tags) do
     defconfig do
       number :id

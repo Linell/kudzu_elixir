@@ -62,10 +62,17 @@
           </p>
         </div>
         <div class='col-md-8'>
-          <%= form_for :new_article_tag, "#", [phx_change: :validate, phx_submit: :add_tag], fn f -> %>
+          <%= form_for :new_article_tag, "#", [phx_change: :suggest_tags, phx_submit: :add_tag], fn f -> %>
             <div class='form-group'>
               <div class='input-group'>
-                <%= text_input f, :tag_text, value: @new_tag_text, class: "form-control" %>
+                <%= text_input f, :tag_text, value: @new_tag_text, class: "form-control", autocomplete: false, list: "search_suggestions" %>
+                <%= if !is_nil(@search_suggestions) do %>
+                  <datalist id="search_suggestions">
+                    <%= for match <- @search_suggestions do %>
+                      <option value="<%= match.tag %>"><%= match.tag %></option>
+                    <% end %>
+                  </datalist>
+                <% end %>
                 <%= hidden_input f, :article_id, value: @article.id %>
                 <div class='input-group-append'>
                   <%= submit "Add Tag", phx_disable_with: "Saving...", class: "btn btn-outline-primary" %>

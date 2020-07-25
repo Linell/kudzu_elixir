@@ -13,7 +13,7 @@ defmodule KudzuWeb.ArticleLive do
 
     article      = Kudzu.Articles.get_article!(article_id)
     current_user = Credentials.get_user(socket, session)
-    socket       = assign(socket, article: article, current_user: current_user, new_tag_text: nil)
+    socket       = assign(socket, article: article, current_user: current_user, new_tag_text: nil, search_suggestions: nil)
 
     { :ok, socket }
   end
@@ -25,7 +25,7 @@ defmodule KudzuWeb.ArticleLive do
 
     article      = Kudzu.Articles.get_article!(article_id)
     current_user = Credentials.get_user(socket, session)
-    socket       = assign(socket, article: article, current_user: current_user, new_tag_text: nil)
+    socket       = assign(socket, article: article, current_user: current_user, new_tag_text: nil, search_suggestions: nil)
 
     { :ok, socket }
   end
@@ -45,6 +45,15 @@ defmodule KudzuWeb.ArticleLive do
     rescue
       e in KeyError -> { :noreply, socket }
     end
+  end
+
+  def handle_event("suggest_tags", session, socket) do
+    tag_text = session["new_article_tag"]["tag_text"] || ""
+
+    new_socket = socket
+                 |> assign(search_suggestions: Kudzu.Tags.search_tags(tag_text))
+
+    { :noreply, new_socket }
   end
 
   def handle_event("add_tag", session, socket) do
@@ -69,6 +78,7 @@ defmodule KudzuWeb.ArticleLive do
           new_socket = socket
                        |> put_flash(:success, "Article tagged!")
                        |> assign(article: article)
+                       |> assign(search_suggestions: nil)
                        |> assign(new_tag_text: nil)
 
           { :noreply, new_socket }
@@ -80,6 +90,7 @@ defmodule KudzuWeb.ArticleLive do
                 # TODO: why doesn't this clear the text field?
                 new_socket = socket
                              |> assign(new_tag_text: nil)
+                             |> assign(search_suggestions: nil)
                 { :noreply, new_socket }
 
               { _error, _details } -> 
