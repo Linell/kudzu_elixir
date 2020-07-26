@@ -27,9 +27,10 @@ defmodule KudzuWeb.Router do
   scope "/admin", KudzuWeb.Admin, as: :admin do
     pipe_through [:browser, :protected, :admin]
 
-    resources "/users", UserController
-    resources "/feeds", FeedController
-    resources "/tags",  TagController
+    resources "/users",  UserController
+    resources "/feeds",  FeedController
+    resources "/topics", TopicController
+    resources "/tags",   TagController
   end
 
   scope "/" do
