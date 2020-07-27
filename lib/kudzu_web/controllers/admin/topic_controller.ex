@@ -22,11 +22,15 @@ defmodule KudzuWeb.Admin.TopicController do
 
   def new(conn, _params) do
     changeset = Topics.change_topic(%Topic{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, topic_matches: nil)
   end
 
   def create(conn, %{"topic" => topic_params}) do
-    case Topics.create_topic(topic_params) do
+    new_topic_params = Map.merge(topic_params, %{
+      "matches" => Kudzu.Topics.Match.string_to_match_list(topic_params["matches_string"])
+    })
+
+    case Topics.create_topic(new_topic_params) do
       {:ok, topic} ->
         conn
         |> put_flash(:info, "Topic created successfully.")
