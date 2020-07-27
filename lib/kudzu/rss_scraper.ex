@@ -23,5 +23,9 @@ defmodule Kudzu.RSSScraper do
 
   def insert_article(article) do
     { :ok, article } = Kudzu.Articles.create_or_update_article(article)
+
+    article |> Kudzu.Articles.set_automatic_topics
+
+    article
   end
 end

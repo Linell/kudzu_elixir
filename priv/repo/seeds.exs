@@ -65,3 +65,18 @@ Kudzu.Feeds.create_feed(%{
   slug: "mother_jones",
   logo_url: "https://www.motherjones.com/wp-content/themes/motherjones/img/mj-nomaster-2000-1124.jpg"
 })
+
+{ :ok, example_tag } = Kudzu.Tags.create_tag(%{ tag: "#Coronavirus" })
+
+Kudzu.Topics.create_topic(%{
+  title:            "Coronavirus 2020",
+  description:      "The pandemic sweeping the world.",
+  preferred_tag_id: example_tag.id,
+  matches: [
+    %{ phrase: "covid"       },
+    %{ phrase: "covid19"     },
+    %{ phrase: "covid 19"    },
+    %{ phrase: "covid-19"    },
+    %{ phrase: "coronavirus" }
+  ]
+})

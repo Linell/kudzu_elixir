@@ -152,4 +152,27 @@ defmodule Kudzu.Articles do
   def change_article(%Article{} = article) do
     Article.changeset(article, %{})
   end
+
+  def set_automatic_topics(%Article{} = article) do
+    Enum.map(Kudzu.Topics.list_topics, fn topic ->
+      match = Enum.any?(topic.matches, fn m ->
+        article_title       = String.downcase(article.title || "")
+        article_description = String.downcase(article.description || "")
+        phrase              = String.downcase(m.phrase)
+
+        (article_title =~ phrase) || (article_description =~ phrase)
+      end)
+
+      if match do
+        tag  = Kudzu.Tags.get_tag!(topic.preferred_tag_id)
+        user = Kudzu.Users.get_user!(1) # XXX: this is a horrible hack, Linell
+
+        Kudzu.UserArticleTags.create_user_article_tag(%{
+          tag:     tag,
+          article: article,
+          user:    user
+        })
+      end
+    end)
+  end
 end
