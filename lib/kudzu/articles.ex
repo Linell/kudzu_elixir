@@ -156,9 +156,9 @@ defmodule Kudzu.Articles do
   def set_automatic_topics(%Article{} = article) do
     Enum.map(Kudzu.Topics.list_topics, fn topic ->
       match = Enum.any?(topic.matches, fn m ->
-        article_title       = String.downcase(article.title || "")
-        article_description = String.downcase(article.description || "")
-        phrase              = String.downcase(m.phrase)
+        article_title       = article.title       || ""
+        article_description = article.description || ""
+        phrase              = m.phrase
 
         (article_title =~ phrase) || (article_description =~ phrase)
       end)
