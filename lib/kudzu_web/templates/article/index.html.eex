@@ -24,7 +24,7 @@
         <%= for article <- @latest_articles do %>
           <li class='list-group-item list-group-item-action flex-column align-items-start'>
             <div class='d-flex w-100 justify-content-between'>
-              <%= link to: Routes.article_path(@conn, :show, article) do %>
+              <%= link(to: article.url, target: :_blank) do %>
                 <h5 class='brandTextColor md-'><%= article.title %></h5>
               <% end %>
             </div>
@@ -37,6 +37,8 @@
               <br>
             <% end %>
             <small>
+              View on <%= link("Kudzu", to: Routes.article_path(@conn, :show, article))%>
+               | 
               View on <%= link(article.feed.title, to: article.url, target: :_blank) %>. 
               <span class='utc_to_local'><%= article.published_date %></span>
             </small>
