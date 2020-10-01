@@ -51,6 +51,7 @@ defmodule Kudzu.MixProject do
       {:torch, "~> 3.4" },
       {:phoenix_live_view, "~> 0.14.0"},
       {:floki, ">= 0.0.0", only: :test},
+      {:metatags, "~> 0.3.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false }
     ]
   end

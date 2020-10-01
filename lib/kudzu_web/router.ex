@@ -9,7 +9,14 @@ defmodule KudzuWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
 
-    # plug :put_root_layout, { KudzuWeb.LayoutView, :root }
+    plug Metatags.Plug,
+      sitename:     "Kudzu",
+      separator:    "|",
+      default_tags: %{
+        "title"       => "All the headlines in one place.",
+        "description" => "Compare news headlines from different sources in one place.",
+        "keywords"    => ["Kudzu News", "news aggregator", "compare headlines"]
+      }
   end
 
   pipeline :api do
