@@ -1,7 +1,7 @@
-<div class='container'>
+<div class='container-fluid'>
   <div class="row">
     <%= if length(@tags) > 0 do %>
-      <div class="col-2">
+      <div class="col-auto">
         <div class="card">
           <div class="card-header">Topic Filters</div>
           <div class="card-body">
@@ -9,7 +9,7 @@
             <%= for tag <- @tags do %>
               <li>
                 <%= link to: Routes.article_path(@conn, :index, %{"tags" => @tags -- [tag]}) do %>
-                  <span class="badge badge-success badge-pill"><%= tag %></span>
+                  <span class="badge badge-success badge-pill mb-1"><%= tag %></span>
                 <% end %>
               </li>
             <% end %>
