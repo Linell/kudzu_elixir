@@ -1,5 +1,5 @@
 defmodule KudzuWeb.ArticleLive do
-  use Phoenix.LiveView
+  use KudzuWeb, :live_view
   alias KudzuWeb.Credentials
 
   def render(assigns) do
