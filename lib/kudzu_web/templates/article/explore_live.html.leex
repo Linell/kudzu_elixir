@@ -1,0 +1,19 @@
+<div class='container-fluid'>
+  <div class='row'>
+    <%= form_for :search_text, "#", [phx_change: :search_form_update, phx_submit: :search], fn f -> %>
+      <div class='form-group'>
+        <div class='input-group'>
+          <%= text_input f, :search_text, value: @search_text, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class='row'>
+    <ul>
+      <%= for article <- @articles do %>
+        <li><%= article.title %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

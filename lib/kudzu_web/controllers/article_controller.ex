@@ -8,6 +8,12 @@ defmodule KudzuWeb.ArticleController do
     |> render("index.html")
   end
 
+  def explore(conn, params) do
+    live_render(conn, KudzuWeb.ArticleExploreLive, session: %{
+      "current_user" => Pow.Plug.current_user(conn)
+    })
+  end
+
   def show(conn, %{"id" => id}) do
     article = Kudzu.Articles.get_article!(id)
 

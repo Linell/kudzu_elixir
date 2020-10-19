@@ -52,6 +52,7 @@ defmodule KudzuWeb.Router do
     get "/",      ArticleController, :index
     get "/about", PageController,    :index
 
+    get("/articles/explore", ArticleController, :explore, as: :explore)
     resources "/articles", ArticleController, only: [:index, :show] do
       post("/tag", ArticleController, :tag, as: :tag)
     end
